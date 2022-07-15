@@ -67,12 +67,12 @@ function ProductsPage(props) {
             className="form-control"
           ></input>
         </label>{" "}
-        <button type="submit" class="btn btn-light">
+        <button type="submit" className="btn btn-light">
           Search
         </button>
         <button
           type="button"
-          class="btn btn-light"
+          className="btn btn-light"
           onClick={props.getAllProductsCb}
         >
           Show All Products

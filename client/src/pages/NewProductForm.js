@@ -97,7 +97,7 @@ function NewProductForm(props) {
         <select name="stores" id="stores">
           <option>Volvo</option>
         </select> */}
-        <button type="submit" class="btn btn-light ms-5">
+        <button type="submit" className="btn btn-light ms-5">
           Add Product
         </button>
       </form>

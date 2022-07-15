@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
+import Local from "./helpers/Local";
+import Api from "./helpers/Api";
 
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
@@ -10,13 +12,20 @@ import ShowProduct from "./pages/ShowProduct";
 import ShowStore from "./pages/ShowStore";
 import NewProductForm from "./pages/NewProductForm";
 import NewStoreForm from "./pages/NewStoreForm";
+import LoginView from "./pages/LoginView";
+import ProfileView from "./pages/ProfileView";
+import RegisterView from "./pages/RegisterView";
+
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [stores, setStores] = useState([]);
-  const [productProfile, setProductProfile] = useState({});
-  const [storeProfile, setStoreProfile] = useState({});
+  const [products, setProducts] = useState([]); // USESTATE 1
+  const [stores, setStores] = useState([]); // USESTATE 2
+  const [productProfile, setProductProfile] = useState({}); //USESTATE 3
+  const [storeProfile, setStoreProfile] = useState({}); //USESTATE 4
+  const [loginErrorMsg, setLoginErrorMsg] = useState(""); //USESTATE 5
+  const [user, setUser] = useState(Local.getUser()); //USESTATE 6
 
   useEffect(() => {
     getAllProducts();
@@ -184,63 +193,111 @@ function App() {
     showStore(id); //fetch store, save in storeProfile state, and redirect
   }
 
+  // do Login
+  async function doLogin(username, password) {
+    let myresponse = await Api.loginUser(username, password);
+    if (myresponse.ok) {
+      Local.saveUserInfo(myresponse.data.token, myresponse.data.user);
+      setUser(myresponse.data.user);
+      setLoginErrorMsg("");
+      navigate("/");
+    } else {
+      setLoginErrorMsg("Login failed");
+    }
+  }
+
+  //do Logout
+  function doLogout() {
+    Local.removeUserInfo();
+    setUser(null);
+  }
+
   return (
     <div className="App">
-      <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <HomePage
-              products={products}
-              stores={stores}
-              showProductCb={showProduct}
-              showStoreCb={showStore}
-            />
-          }
-        />
-        <Route
-          path="products"
-          element={
-            <ProductsPage
-              products={products}
-              showProductCb={showProduct}
-              getProductsCb={getProducts}
-              getAllProductsCb={getAllProducts}
-            />
-          }
-        />
-        <Route
-          path="products/:id"
-          element={
-            <ShowProduct
-              product={productProfile}
-              redirectToStoreCb={redirectToStore}
-            />
-          }
-        />
-        <Route
-          path="/add-products"
-          element={<NewProductForm addProductsCb={addProducts} />}
-        />
-        <Route
-          path="stores"
-          element={<StoresPage stores={stores} showStoreCb={showStore} />}
-        />
-        <Route
-          path="stores/:id"
-          element={
-            <ShowStore
-              store={storeProfile}
-              redirectToProductCb={redirectToProduct}
-            />
-          }
-        />
-        <Route
-          path="/add-stores"
-          element={<NewStoreForm addStoresCb={addStores} />}
-        />
-      </Routes>
+      <Navbar user={user} logoutCb={doLogout} />
+      <div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                products={products}
+                stores={stores}
+                showProductCb={showProduct}
+                showStoreCb={showStore}
+              />
+            }
+          />
+          <Route
+            path="products"
+            element={
+              <ProductsPage
+                products={products}
+                showProductCb={showProduct}
+                getProductsCb={getProducts}
+                getAllProductsCb={getAllProducts}
+              />
+            }
+          />
+          <Route
+            path="products/:id"
+            element={
+              <ShowProduct
+                product={productProfile}
+                redirectToStoreCb={redirectToStore}
+              />
+            }
+          />
+
+          <Route
+            path="/add-products"
+            element={
+              <PrivateRoute>
+                <NewProductForm addProductsCb={addProducts} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="stores"
+            element={<StoresPage stores={stores} showStoreCb={showStore} />}
+          />
+          <Route
+            path="stores/:id"
+            element={
+              <ShowStore
+                store={storeProfile}
+                redirectToProductCb={redirectToProduct}
+              />
+            }
+          />
+          <Route
+            path="/add-stores"
+            element={
+              <PrivateRoute>
+                <NewStoreForm addStoresCb={addStores} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/users/:id"
+            element={
+              <PrivateRoute>
+                <ProfileView />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <LoginView
+                loginCb={(u, p) => doLogin(u, p)}
+                loginError={loginErrorMsg}
+              />
+            }
+          />
+          <Route path="/register" element={<RegisterView />} />
+        </Routes>
+      </div>
       <header className="App-header"></header>
       {/* <HomePage />
       <ProductsPage />

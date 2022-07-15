@@ -7,7 +7,7 @@ function HomePage(props) {
   }
   return (
     <div className="HomeView">
-      <div class="circular_image">
+      <div className="circular_image">
         <img src="https://64.media.tumblr.com/696ea4936a2198921e6e20d37c46a2fc/dae72e0549a3185c-0e/s1280x1920/bfa0124b65298344e5ad50232c04344b833aaf66.jpg" />
       </div>
       <h2>Your Global Directory for All Things Beauty Supply!</h2>

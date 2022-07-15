@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const db = require("../model/helper");
+const { ensureUserLoggedIn } = require("../middleware/guards");
 
 // join to JSON
 function joinToJson(results) {
@@ -21,7 +22,7 @@ function joinToJson(results) {
     }));
   }
 
-  // Create store obj
+  // Create store obj returning all the product each store has
   let stores = {
     id: row0.storesID,
     storeName: row0.storeName,

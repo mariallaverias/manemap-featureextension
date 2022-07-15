@@ -22,7 +22,7 @@ function joinToJson(results) {
     }));
   }
 
-  // Create product obj
+  // Create product obj that contains all the stores where that project is found
   let products = {
     id: row0.productsID,
     productName: row0.productName,
@@ -97,7 +97,7 @@ router.get("/:id", async function (req, res, next) {
 
     let products = await results;
     products = joinToJson(products);
-    // checking if the response array is empty, meaning the store doesnt exist
+    // checking if the response array is empty, meaning the product doesnt exist
     if (products.length === 0) {
       res.status(404).send({ error: "This product does not exist" });
     } else {
