@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //code source  Auth Demo  - Jim
 const EMPTY_FORM = {
@@ -9,11 +9,9 @@ const EMPTY_FORM = {
   owner: 0,
 };
 function RegisterView(props) {
-  //   const [user, setUser] = useState(null);
-  //   const [errorMsg, setErrorMsg] = useState("");
-  //   let { id } = useParams();
   const [newUser, setNewUser] = useState(EMPTY_FORM);
   const [shopOwner, setShopOwner] = useState(0);
+  const navigate = useNavigate();
 
   function handleChange(event) {
     let { name, value } = event.target;
@@ -30,8 +28,10 @@ function RegisterView(props) {
     */
 
     event.preventDefault();
+    props.addNewUserCb(newUser);
     console.log(newUser);
     // props.addStudentCb(formData);
+    navigate("/login");
     setNewUser(EMPTY_FORM);
   }
   async function createUser() {}

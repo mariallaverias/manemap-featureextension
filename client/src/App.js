@@ -19,13 +19,13 @@ import RegisterView from "./pages/RegisterView";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-  const navigate = useNavigate();
   const [products, setProducts] = useState([]); // USESTATE 1
   const [stores, setStores] = useState([]); // USESTATE 2
   const [productProfile, setProductProfile] = useState({}); //USESTATE 3
   const [storeProfile, setStoreProfile] = useState({}); //USESTATE 4
   const [loginErrorMsg, setLoginErrorMsg] = useState(""); //USESTATE 5
   const [user, setUser] = useState(Local.getUser()); //USESTATE 6
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllProducts();
@@ -181,6 +181,27 @@ function App() {
     }
   }
 
+  // add new user to database
+
+  async function addNewUser(newUser) {
+    let options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser),
+    };
+    try {
+      let response = await fetch("/register", options);
+      if (response.ok) {
+        let data = await response.json();
+        setStores(data);
+      } else {
+        console.log(`server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`network error: ${err.message}`);
+    }
+  }
+
   // redirect to product (for the 'products seen at this store' part to be clickable)
   function redirectToProduct(id) {
     setProductProfile(null); // remove old product if there was one
@@ -253,7 +274,9 @@ function App() {
             path="/add-products"
             element={
               <PrivateRoute>
-                <NewProductForm addProductsCb={addProducts} />
+                {user && Number(user.owner) === 1 ? (
+                  <NewProductForm addProductsCb={addProducts} />
+                ) : null}
               </PrivateRoute>
             }
           />
@@ -274,7 +297,9 @@ function App() {
             path="/add-stores"
             element={
               <PrivateRoute>
-                <NewStoreForm addStoresCb={addStores} />
+                {user && Number(user.owner) < 1 ? (
+                  <NewStoreForm addStoresCb={addStores} />
+                ) : null}
               </PrivateRoute>
             }
           />
@@ -282,7 +307,7 @@ function App() {
             path="/users/:id"
             element={
               <PrivateRoute>
-                <ProfileView />
+                <ProfileView stores={stores} />
               </PrivateRoute>
             }
           />
@@ -295,7 +320,10 @@ function App() {
               />
             }
           />
-          <Route path="/register" element={<RegisterView />} />
+          <Route
+            path="/register"
+            element={<RegisterView addNewUserCb={addNewUser} />}
+          />
         </Routes>
       </div>
       <header className="App-header"></header>

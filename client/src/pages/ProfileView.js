@@ -4,13 +4,19 @@ import Api from "../helpers/Api";
 
 //code source  Auth Demo  - Jim
 function ProfileView(props) {
-  const [user, setUser] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [user, setUser] = useState(null); //USE STATE 1
+  const [errorMsg, setErrorMsg] = useState(""); //USESTATE 2
+  const [userStore, setUserStore] = useState(null); //USESTATE 3
+
   let { id } = useParams();
 
   useEffect(() => {
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    getUserStore();
+  }, [user]);
 
   async function fetchProfile() {
     let myresponse = await Api.getUser(id);
@@ -24,6 +30,14 @@ function ProfileView(props) {
     }
   }
 
+  function getUserStore() {
+    console.log(user);
+    console.log(props.stores);
+    if (user && user.owner === 1) {
+      let x = props.stores.filter((s) => s.FK_userID === user.ID);
+      setUserStore(x[0]);
+    }
+  }
   if (errorMsg) {
     return <h2 style={{ color: "red" }}>{errorMsg}</h2>;
   }
@@ -40,6 +54,13 @@ function ProfileView(props) {
       Username: {user.username}
       <br />
       Email: {user.email}
+      {userStore ? (
+        <div>
+          <h1>My Store </h1>
+          <br />
+          <p> {userStore.storeName}</p>
+        </div>
+      ) : null}
     </div>
   );
 }

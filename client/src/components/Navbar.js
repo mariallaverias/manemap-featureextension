@@ -23,11 +23,11 @@ function Navbar(props) {
             </li>
           )}
 
-          {props.user && (
+          {props.user && props.user.owner === 0 ? (
             <li>
               <NavLink to="/add-stores">Add a Store</NavLink>
             </li>
-          )}
+          ) : null}
           {/* <li><NavLink to="/bad-route">Bad!</NavLink></li> */}
         </ul>
 

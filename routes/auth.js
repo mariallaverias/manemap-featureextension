@@ -31,7 +31,6 @@ router.post("/login", async (req, res) => {
         let token = jwt.sign(payload, SECRET_KEY);
         // Also return user (without password)
         delete user.password;
-        delete user.owner;
         res.send({
           message: "Login succeeded",
           token: token,
