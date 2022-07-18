@@ -13,10 +13,10 @@ SET
 CREATE TABLE products (
 	ID INT NOT NULL AUTO_INCREMENT,
 	productName varchar(255) NOT NULL,
-	price INT NOT NULL,
     quantity INT,
 	quantityUnits varchar(255),
 	productImage varchar(500) NOT NULL,
+	brand varchar(255),
 	PRIMARY KEY (ID)
 );
 
@@ -62,13 +62,13 @@ ALTER TABLE stores ADD CONSTRAINT stores_fk0 FOREIGN KEY (FK_userID) REFERENCES 
 
 
 -- default data:
-INSERT INTO products (productName, price, quantity, quantityUnits, productImage) VALUES 
-('Comb', 5, 10, 'g', 'https://cdn.shopify.com/s/files/1/2236/8407/products/CCC-2T_800x.jpg?v=1552581024'), 
-('Gel', 8, 250, 'ml', 'https://m.media-amazon.com/images/I/71C3bKEcS-L._AC_SX425_.jpg'), 
-('Beads', 10, 50, 'g', 'https://sc04.alicdn.com/kf/Hdaa53a9673de47be967e4ddfabdec4f1R.jpg'),
-('Cream', 10, 100, 'ml', 'https://mynatural.co.za/wp-content/uploads/2017/09/CurlingCream.png'),
-('Castor Oil', 10, 100, 'ml', 'https://images.hollandandbarrettimages.co.uk/productimages/HB/724/033816_A.jpg'),
-('Shampoo', 7, 250, 'ml', 'https://www.druni.es/media/catalog/product/7/0/7003143.jpg');
+INSERT INTO products (productName, quantity, quantityUnits, productImage, brand) VALUES 
+('Comb', 10, 'g', 'https://cdn.shopify.com/s/files/1/2236/8407/products/CCC-2T_800x.jpg?v=1552581024','SuperCom'), 
+('Gel', 250, 'ml', 'https://m.media-amazon.com/images/I/71C3bKEcS-L._AC_SX425_.jpg','ECO Style'), 
+('Beads', 50, 'g', 'https://sc04.alicdn.com/kf/Hdaa53a9673de47be967e4ddfabdec4f1R.jpg','Beadybeads'),
+('Cream', 100, 'ml', 'https://mynatural.co.za/wp-content/uploads/2017/09/CurlingCream.png','My Natural Hair'),
+('Castor Oil', 100, 'ml', 'https://images.hollandandbarrettimages.co.uk/productimages/HB/724/033816_A.jpg','Holland & Barret'),
+('Shampoo', 250, 'ml', 'https://www.druni.es/media/catalog/product/7/0/7003143.jpg', 'Cantu' );
 
 INSERT INTO users (username, email, password, owner) VALUES
  	('user1','user1@acme.com','$2b$12$eFzMWbS9SogNtxkmo3J7aO8FQMFQSKbtpwLMIOVsF6GGKpTQdgq.W',1),

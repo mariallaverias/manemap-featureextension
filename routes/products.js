@@ -30,6 +30,7 @@ function joinToJson(results) {
     quantity: row0.quantity,
     quantityUnits: row0.quantityUnits,
     productImage: row0.productImage,
+    brand: row0.brand,
     stores,
   };
 
@@ -111,17 +112,37 @@ router.get("/:id", async function (req, res, next) {
 
 // INSERT a new product into the DB
 router.post("/", async function (req, res) {
-  let { productName, price, quantity, quantityUnits, productImage } = req.body;
+  let {
+    productName,
+    price,
+    quantity,
+    quantityUnits,
+    productImage,
+    brand,
+    storeID,
+  } = req.body;
 
   try {
-    await db(`INSERT INTO products (productName, price, quantity, quantityUnits, productImage) VALUES
-    ('${productName}', ${price}, ${quantity}, '${quantityUnits}', '${productImage}')`);
+    let id =
+      await db(`INSERT INTO products (productName, quantity, quantityUnits, productImage, brand) VALUES
+    ('${productName}', ${quantity}, '${quantityUnits}', '${productImage}', '${brand}'); SELECT LAST_INSERT_ID();
+    `);
+
+    // let id = await db(``);
+    console.log("FOCUS", id);
+    let productId = id.data[0].insertId;
     // then return the list of products
     const results = await db(`SELECT * FROM products`);
+
+    await db(
+      `INSERT INTO products_stores (FK_productsID, FK_storesID, productPrice) VALUES (${productId}, ${storeID}, ${price})`
+    );
+
     // message number 201 means 'new resource created'
     res.status(201).send(results.data);
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
 module.exports = router;

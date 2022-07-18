@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const EMPTY_FORM = {
   productName: "",
   price: 0,
   quantity: 0,
   quantityUnits: "",
+  price: 0,
   productImage: "",
-  // stores: {
-  //   id: 0,
-  // },
+  brand: "",
 };
 
 function NewProductForm(props) {
   const [form, setForm] = useState(EMPTY_FORM);
+  const [userStore, setUserStore] = useState(null); //USESTATE 2
+
+  useEffect(() => {
+    getUserStore();
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.addProductsCb(form);
+    let storeID = userStore.ID;
+    let newForm = { ...form, storeID };
+    props.addProductsCb(newForm);
     setForm(EMPTY_FORM);
     alert("New Product Added!");
   }
@@ -26,9 +32,16 @@ function NewProductForm(props) {
     setForm((form) => ({ ...form, [name]: value }));
   }
 
+  function getUserStore() {
+    console.log(props.stores);
+    if (props.user && props.user.owner === 1) {
+      let x = props.stores.filter((s) => s.FK_userID === props.user.ID);
+      setUserStore(x[0]);
+    }
+  }
+
   return (
     <div>
-      {" "}
       <h2>Add a new product to the directory! </h2>
       <form onSubmit={handleSubmit} className="NewProductForm mb-3 ms-5">
         <label className="form-label col-sm-3 mt-5">
@@ -55,6 +68,17 @@ function NewProductForm(props) {
             required
           />
         </label> */}
+        <label className="form-label col-sm-3 mt-5">
+          Product Brand
+          <input
+            name="brand"
+            type="text"
+            className="form-control"
+            value={form.brand}
+            onChange={handleChange}
+            required
+          />
+        </label>
         <label className="form-label col-sm-2">
           Quantity
           <input
@@ -75,6 +99,18 @@ function NewProductForm(props) {
             placeholder="e.g: ml, g, packs, etc."
             className="form-control ms-5 m-2"
             value={form.quantityUnits}
+            onChange={handleChange}
+            required
+          />{" "}
+        </label>
+        <label className="form-label col-sm-2">
+          Price
+          <input
+            name="price"
+            type="text"
+            placeholder="e.g: ml, g, packs, etc."
+            className="form-control ms-5 m-2"
+            value={form.price}
             onChange={handleChange}
             required
           />{" "}

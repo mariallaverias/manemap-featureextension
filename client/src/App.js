@@ -57,6 +57,7 @@ function App() {
       let response = await fetch(fetchString, options);
       if (response.ok) {
         let data = await response.json();
+        console.log(data);
         setProducts(data);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
@@ -103,8 +104,6 @@ function App() {
 
   // add products
   async function addProducts(newProduct) {
-    newProduct.id = products.length + 1;
-
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -160,8 +159,6 @@ function App() {
 
   // add stores
   async function addStores(newStore) {
-    newStore.id = stores.length + 1;
-
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -172,7 +169,9 @@ function App() {
       let response = await fetch("/stores", options);
       if (response.ok) {
         let data = await response.json();
-        setStores(data);
+        setUser(data.user);
+        setStores(data.stores);
+        navigate(`/users/${data.user.ID}`);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
@@ -193,7 +192,8 @@ function App() {
       let response = await fetch("/register", options);
       if (response.ok) {
         let data = await response.json();
-        setStores(data);
+        // setStores(data);
+        console.log(data);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
@@ -275,7 +275,11 @@ function App() {
             element={
               <PrivateRoute>
                 {user && Number(user.owner) === 1 ? (
-                  <NewProductForm addProductsCb={addProducts} />
+                  <NewProductForm
+                    addProductsCb={addProducts}
+                    user={user}
+                    stores={stores}
+                  />
                 ) : null}
               </PrivateRoute>
             }
@@ -298,7 +302,7 @@ function App() {
             element={
               <PrivateRoute>
                 {user && Number(user.owner) < 1 ? (
-                  <NewStoreForm addStoresCb={addStores} />
+                  <NewStoreForm addStoresCb={addStores} user={user} />
                 ) : null}
               </PrivateRoute>
             }

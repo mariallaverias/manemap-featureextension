@@ -85,14 +85,22 @@ router.post("/", async function (req, res) {
     storeImage,
     blackOwned,
     localOwned,
+    userId,
   } = req.body;
+
   try {
-    await db(`INSERT INTO stores (storeName, storeAddress, storeCity, storeCountry, storePostalCode, storeImage, blackOwned, localOwned) VALUES
-  ('${storeName}', '${storeAddress}', '${storeCity}', '${storeCountry}', '${storePostalCode}', '${storeImage}', ${blackOwned}, ${localOwned});`);
+    await db(`INSERT INTO stores (storeName, storeAddress, storeCity, storeCountry, storePostalCode, storeImage, blackOwned, localOwned, FK_userID) VALUES
+  ('${storeName}', '${storeAddress}', '${storeCity}', '${storeCountry}', '${storePostalCode}', '${storeImage}', ${blackOwned}, ${localOwned}, ${userId});`);
     // then return the list of stores
-    const results = await db(`SELECT * FROM stores`);
-    // message number 201 means 'new resource created'
-    res.status(201).send(results.data);
+    const resultsStores = await db(`SELECT * FROM stores`);
+    // message number 201 means 'new resource created
+
+    await db(`UPDATE users SET owner = !owner WHERE ID=${userId}`); // here i do a PUT to the users table to update that this user is now an Owner
+
+    const resultUser = await db(`SELECT * FROM users WHERE ID=${userId}`);
+    res
+      .status(201)
+      .send({ stores: resultsStores.data, user: resultUser.data[0] });
   } catch (err) {
     res.status(500).send({ error: err.message });
   }

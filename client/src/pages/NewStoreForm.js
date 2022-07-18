@@ -15,9 +15,12 @@ function NewStoreForm(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    props.addStoresCb(form);
+    let userId = props.user.ID;
+    let newForm = { ...form, userId }; // I include the user ID to update the user as owner and also to include the FK in the stores table
+    props.addStoresCb(newForm);
     setForm(EMPTY_FORM);
     alert("New Store Added!");
+    // props.changeUserToOwnerCb(user.ID);
   }
 
   function handleChange(event) {

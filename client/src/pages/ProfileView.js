@@ -15,6 +15,10 @@ function ProfileView(props) {
   }, []);
 
   useEffect(() => {
+    fetchProfile();
+  }, [props.stores]);
+
+  useEffect(() => {
     getUserStore();
   }, [user]);
 
