@@ -13,6 +13,7 @@ const EMPTY_FORM = {
 function NewProductForm(props) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [userStore, setUserStore] = useState(null); //USESTATE 2
+  const products = props.products;
 
   useEffect(() => {
     getUserStore();

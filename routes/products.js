@@ -123,26 +123,67 @@ router.post("/", async function (req, res) {
   } = req.body;
 
   try {
-    let id =
-      await db(`INSERT INTO products (productName, quantity, quantityUnits, productImage, brand) VALUES
+    let productExists = await db(
+      `SELECT * FROM products WHERE productName= '${productName}' AND quantity='${quantity}' AND brand='${brand}' ;`
+    );
+
+    if (productExists.data.length > 0) {
+      let id = productExists.data[0].ID;
+      console.log(id);
+
+      await db(
+        `INSERT INTO products_stores (FK_productsID, FK_storesID, productPrice) VALUES (${id}, ${storeID}, ${price})`
+      );
+
+      const results = await db(
+        `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
+      );
+
+      // message number 201 means 'new resource created'
+      res.status(201).send(results.data);
+    } else {
+      let id =
+        await db(`INSERT INTO products (productName, quantity, quantityUnits, productImage, brand) VALUES
     ('${productName}', ${quantity}, '${quantityUnits}', '${productImage}', '${brand}'); SELECT LAST_INSERT_ID();
     `);
 
-    // let id = await db(``);
-    console.log("FOCUS", id);
-    let productId = id.data[0].insertId;
-    // then return the list of products
-    const results = await db(`SELECT * FROM products`);
+      // let id = await db(``);
+      console.log("FOCUS", id);
+      let productId = id.data[0].insertId;
+      // then return the list of products
+      const results = await db(
+        `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
+      );
 
-    await db(
-      `INSERT INTO products_stores (FK_productsID, FK_storesID, productPrice) VALUES (${productId}, ${storeID}, ${price})`
-    );
+      await db(
+        `INSERT INTO products_stores (FK_productsID, FK_storesID, productPrice) VALUES (${productId}, ${storeID}, ${price})`
+      );
 
-    // message number 201 means 'new resource created'
-    res.status(201).send(results.data);
+      // message number 201 means 'new resource created'
+      res.status(201).send(results.data);
+    }
   } catch (err) {
     res.status(500).send({ error: err.message });
   }
 });
+
+// router.post("/products_stores/", async function (req, res) {
+//   let { productID, storeID, price } = req.body;
+
+//   try {
+//     await db(
+//       `INSERT INTO products_stores (FK_productsID, FK_storesID, productPrice) VALUES (${productID}, ${storeID}, ${price})`
+//     );
+
+//     const results = await db(
+//       `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
+//     );
+
+//     // message number 201 means 'new resource created'
+//     res.status(201).send(results.data);
+//   } catch (err) {
+//     res.status(500).send({ error: err.message });
+//   }
+// });
 
 module.exports = router;

@@ -63,7 +63,7 @@ ALTER TABLE stores ADD CONSTRAINT stores_fk0 FOREIGN KEY (FK_userID) REFERENCES 
 
 -- default data:
 INSERT INTO products (productName, quantity, quantityUnits, productImage, brand) VALUES 
-('Comb', 10, 'g', 'https://cdn.shopify.com/s/files/1/2236/8407/products/CCC-2T_800x.jpg?v=1552581024','SuperCom'), 
+('Comb', 10, 'g', 'https://cdn.shopify.com/s/files/1/2236/8407/products/CCC-2T_800x.jpg?v=1552581024','SuperComb'), 
 ('Gel', 250, 'ml', 'https://m.media-amazon.com/images/I/71C3bKEcS-L._AC_SX425_.jpg','ECO Style'), 
 ('Beads', 50, 'g', 'https://sc04.alicdn.com/kf/Hdaa53a9673de47be967e4ddfabdec4f1R.jpg','Beadybeads'),
 ('Cream', 100, 'ml', 'https://mynatural.co.za/wp-content/uploads/2017/09/CurlingCream.png','My Natural Hair'),
