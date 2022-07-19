@@ -12,10 +12,13 @@ function StoresPage(props) {
       <div>
         <ul className="row">
           {props.stores.map((s) => (
-            <li className="col-lg-4 d-flex align-items-stretch">
+            <li key={s.ID} className="col-lg-4 d-flex align-items-stretch">
               <div
-                className="card col w-100 p-3"
-                key={s.ID}
+                className={
+                  s.blackOwned
+                    ? "card border-warning col w-100 p-3"
+                    : "card col w-100 p-3"
+                }
                 style={{ listStyleType: "none" }}
                 onClick={(e) => props.showStoreCb(s.ID)}
               >
@@ -30,6 +33,16 @@ function StoresPage(props) {
                 <br /> {s.storeCity}
                 {","} {s.storeCountry} {""}
                 {s.storePostalCode}
+                {s.blackOwned ? (
+                  <p className="card-footer  bg-gradient-warning text-warning border-warning">
+                    Black-owned business
+                  </p>
+                ) : null}
+                {s.localOwned ? (
+                  <p className="card-footer  bg-gradient-success text-success border-success">
+                    Local-owned business
+                  </p>
+                ) : null}
               </div>
             </li>
           ))}
