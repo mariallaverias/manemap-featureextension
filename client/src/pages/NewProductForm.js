@@ -46,7 +46,7 @@ function NewProductForm(props) {
   }
 
   return (
-    <div>
+    <div className="container">
       <h2>Add a new product to the directory! </h2>
       <form
         onSubmit={handleSubmit}
