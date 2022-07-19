@@ -17,6 +17,7 @@ import ProfileView from "./pages/ProfileView";
 import RegisterView from "./pages/RegisterView";
 
 import PrivateRoute from "./components/PrivateRoute";
+import MyProducts from "./components/MyProducts";
 
 function App() {
   const [products, setProducts] = useState([]); // USESTATE 1
@@ -115,6 +116,29 @@ function App() {
       if (response.ok) {
         let data = await response.json();
         setProducts(data);
+        navigate(`/users/${user.ID}`);
+      } else {
+        console.log(`server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`network error: ${err.message}`);
+    }
+  }
+
+  //delete products
+  async function deleteProduct(product) {
+    let options = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    };
+    console.log(options.body);
+
+    try {
+      let response = await fetch("/products", options);
+      if (response.ok) {
+        // let data = await response.json();
+        navigate(`/users/${user.ID}`);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
@@ -311,10 +335,14 @@ function App() {
             path="/users/:id"
             element={
               <PrivateRoute>
-                <ProfileView stores={stores} />
+                <ProfileView
+                  stores={stores}
+                  deleteProductCb0={(product) => deleteProduct(product)}
+                />
               </PrivateRoute>
             }
           />
+
           <Route
             path="/login"
             element={

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Api from "../helpers/Api";
+import MyProducts from "../components/MyProducts";
 
 //code source  Auth Demo  - Jim
 function ProfileView(props) {
@@ -50,6 +51,12 @@ function ProfileView(props) {
     return <h2>Loading...</h2>;
   }
 
+  // function deleteProduct(product) {
+  //   setToDelete(product);
+
+  // props.deleteProductCb0(toDelete);
+  // }
+
   return (
     <div>
       <h1>Profile View</h1>
@@ -64,6 +71,13 @@ function ProfileView(props) {
           <br />
           <p> {userStore.storeName}</p>
         </div>
+      ) : null}
+      {userStore ? (
+        <MyProducts
+          user={user}
+          userStore={userStore}
+          deleteProductCb1={(product) => props.deleteProductCb0(product)}
+        />
       ) : null}
     </div>
   );

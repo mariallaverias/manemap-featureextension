@@ -54,6 +54,9 @@ function makeWhereFromFilters(q) {
   if (q.storeCountry) {
     filters.push(`stores.storeCountry = '${q.storeCountry.replace("+", " ")}'`);
   }
+  if (q.storeID) {
+    filters.push(`stores.ID = ${q.storeID}`);
+  }
 
   // Return all filters joined by AND (for the sake of SQL syntax)
   return filters.join(" AND ");
@@ -66,13 +69,15 @@ router.get("/", async function (req, res) {
   let sql = "SELECT *, products.ID AS productsID FROM products ";
   let where = makeWhereFromFilters(req.query); // make optional WHERE from query parameters
   // can include an optional console.log(where) to see what's being taken as a query parameter
+  console.log(where);
+
   try {
     if (where) {
       // inner joins to enable searching with store filters
       // on postman, the first ID column refers to store ID, better to just ignore it and
       // read through FK_productsID and FK_storesID to know which is which
-      sql += `INNER JOIN products_stores ON products_stores.FK_storesID = products.ID
-      INNER JOIN stores ON products_stores.FK_productsID = stores.ID WHERE ${where}`;
+      sql += `INNER JOIN products_stores ON products_stores.FK_productsID = products.ID
+      INNER JOIN stores ON products_stores.FK_storesID = stores.ID WHERE ${where}`;
     }
     const results = await db(sql);
     res.send(results.data);
@@ -169,6 +174,7 @@ router.post("/", async function (req, res) {
 
 router.delete("/", async function (req, res) {
   let { productID, storeID } = req.body;
+  console.log(productID, storeID);
 
   try {
     let result = await db(

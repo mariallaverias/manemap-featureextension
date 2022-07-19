@@ -88,6 +88,10 @@ function ProductsPage(props) {
           >
             <img src={p.productImage} width="200" height="200" alt="" /> <br />
             <h4>{p.productName}</h4> {p.quantity} {p.quantityUnits} <br />
+            <p>
+              For {p.productPrice}€ in {p.storeCity}
+            </p>
+            <br />
           </li>
         ))}
       </ul>
