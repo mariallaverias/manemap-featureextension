@@ -78,6 +78,8 @@ router.get("/", async function (req, res) {
       // read through FK_productsID and FK_storesID to know which is which
       sql += `INNER JOIN products_stores ON products_stores.FK_productsID = products.ID
       INNER JOIN stores ON products_stores.FK_storesID = stores.ID WHERE ${where}`;
+    } else {
+      sql += `INNER JOIN products_stores ON products_stores.FK_productsID = products.ID`;
     }
     const results = await db(sql);
     res.send(results.data);

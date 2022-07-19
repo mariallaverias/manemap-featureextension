@@ -32,7 +32,62 @@ function App() {
     getAllProducts();
     getStores();
   }, []);
+  // get stores function
+  async function getStores() {
+    let options = {
+      method: "GET",
+    };
+    try {
+      let response = await fetch("/stores", options);
+      if (response.ok) {
+        let data = await response.json();
+        setStores(data);
+      } else {
+        console.log(`server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`network error: ${err.message}`);
+    }
+  }
 
+  // get store by id function
+  async function showStore(id) {
+    try {
+      let response = await fetch(`/stores/${id}`);
+      if (response.ok) {
+        let data = await response.json();
+        setStoreProfile(data);
+        navigate(`/stores/${id}`);
+      } else {
+        console.log(`server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`network error: ${err.message}`);
+    }
+  }
+
+  // add stores
+  async function addStores(newStore) {
+    let options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newStore),
+    };
+
+    try {
+      let response = await fetch("/stores", options);
+      if (response.ok) {
+        let data = await response.json();
+        setUser(data.user);
+        setStores(data.stores);
+        navigate(`/users/${data.user.ID}`);
+      } else {
+        console.log(`server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`network error: ${err.message}`);
+    }
+  }
   // get products function (includes search query stuff)
   async function getProducts(filters) {
     let fetchString = "/products";
@@ -139,63 +194,6 @@ function App() {
       if (response.ok) {
         // let data = await response.json();
         navigate(`/users/${user.ID}`);
-      } else {
-        console.log(`server error: ${response.status} ${response.statusText}`);
-      }
-    } catch (err) {
-      console.log(`network error: ${err.message}`);
-    }
-  }
-
-  // get stores function
-  async function getStores() {
-    let options = {
-      method: "GET",
-    };
-    try {
-      let response = await fetch("/stores", options);
-      if (response.ok) {
-        let data = await response.json();
-        setStores(data);
-      } else {
-        console.log(`server error: ${response.status} ${response.statusText}`);
-      }
-    } catch (err) {
-      console.log(`network error: ${err.message}`);
-    }
-  }
-
-  // get store by id function
-  async function showStore(id) {
-    try {
-      let response = await fetch(`/stores/${id}`);
-      if (response.ok) {
-        let data = await response.json();
-        setStoreProfile(data);
-        navigate(`/stores/${id}`);
-      } else {
-        console.log(`server error: ${response.status} ${response.statusText}`);
-      }
-    } catch (err) {
-      console.log(`network error: ${err.message}`);
-    }
-  }
-
-  // add stores
-  async function addStores(newStore) {
-    let options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newStore),
-    };
-
-    try {
-      let response = await fetch("/stores", options);
-      if (response.ok) {
-        let data = await response.json();
-        setUser(data.user);
-        setStores(data.stores);
-        navigate(`/users/${data.user.ID}`);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
