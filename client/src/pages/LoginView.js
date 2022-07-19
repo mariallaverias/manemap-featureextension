@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,11 +30,12 @@ function LoginView(props) {
 
         {props.loginError && <div>{props.loginError}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form className="Form" onSubmit={handleSubmit}>
           <div>
-            <label>
+            <label className="form-label">
               Username
               <input
+                className="form-control"
                 type="text"
                 name="usernameInput"
                 required
@@ -45,9 +46,10 @@ function LoginView(props) {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               Password
               <input
+                className="form-control"
                 type="password"
                 name="passwordInput"
                 required
@@ -57,10 +59,13 @@ function LoginView(props) {
             </label>
           </div>
 
-          <button type="submit">Submit</button>
+          <button className="btn btn-light" type="submit">
+            Submit
+          </button>
         </form>
       </div>
-      <h5>Not registered yet? Click here</h5>
+      <p>Not registered yet? </p>
+      <Link to={"../Register"}>Click here</Link>
     </div>
   );
 }

@@ -51,7 +51,7 @@ function MyProducts(props) {
 
   return (
     <div>
-      <h3>Products in store</h3>
+      <h3 className="border">Products in store</h3>
       <div>
         <table className="table table-bordered  padding">
           <thead>
@@ -79,10 +79,13 @@ function MyProducts(props) {
                     <img src={p.productImage} width="50" height="50" />
                   </td>
                   <td>
-                    <button>Update</button>
+                    <button className="btn btn-light">Update</button>
                   </td>
                   <td>
-                    <button onClick={() => handleClickDelete(p.FK_productsID)}>
+                    <button
+                      className="btn btn-light"
+                      onClick={() => handleClickDelete(p.FK_productsID)}
+                    >
                       Delete
                     </button>
                   </td>
@@ -92,7 +95,9 @@ function MyProducts(props) {
         </table>
       </div>
       <div>
-        <button onClick={redirectToAddProducts}>Add more products</button>
+        <button className="btn btn-light" onClick={redirectToAddProducts}>
+          Add more products
+        </button>
       </div>
     </div>
   );

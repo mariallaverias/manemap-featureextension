@@ -38,10 +38,12 @@ function RegisterView(props) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} s>
-        <label>
+      <h3>Registration Form</h3>
+      <form className="Form form-control" onSubmit={handleSubmit} s>
+        <label className="form-label">
           Username
           <input
+            className="form-control"
             type="text"
             name="username"
             value={newUser.username}
@@ -49,9 +51,10 @@ function RegisterView(props) {
           />
         </label>
         <br></br>
-        <label>
+        <label className="form-label">
           Email
           <input
+            className="form-control"
             type="text"
             name="email"
             value={newUser.email}
@@ -59,9 +62,10 @@ function RegisterView(props) {
           />
         </label>
         <br></br>
-        <label>
+        <label className="form-label">
           Password
           <input
+            className="form-control"
             type="text"
             name="password"
             value={newUser.password}
@@ -71,8 +75,9 @@ function RegisterView(props) {
         <br></br>
         <div>
           <p>Are you registering as shop owner?</p>
-          <label>
+          <label className="form-check-label">
             <input
+              className="form-check-input"
               type="radio"
               name="owner"
               value="1"
@@ -80,8 +85,9 @@ function RegisterView(props) {
             />
             Yes
           </label>
-          <label>
+          <label className="form-check-label">
             <input
+              className="form-check-input"
               type="radio"
               name="owner"
               value="0"
@@ -90,7 +96,7 @@ function RegisterView(props) {
             No
           </label>
         </div>
-        <button>Register</button>
+        <button className="btn btn-light">Register</button>
       </form>
     </div>
   );

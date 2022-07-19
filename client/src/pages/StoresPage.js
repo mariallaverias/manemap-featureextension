@@ -12,7 +12,7 @@ function StoresPage(props) {
       <ul className="StoresList">
         {props.stores.map((s) => (
           <li
-            className="Store border"
+            className="Store border "
             key={s.ID}
             style={{ listStyleType: "none" }}
             onClick={(e) => props.showStoreCb(s.ID)}

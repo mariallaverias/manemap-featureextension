@@ -17,7 +17,6 @@ import ProfileView from "./pages/ProfileView";
 import RegisterView from "./pages/RegisterView";
 
 import PrivateRoute from "./components/PrivateRoute";
-import MyProducts from "./components/MyProducts";
 
 function App() {
   const [products, setProducts] = useState([]); // USESTATE 1

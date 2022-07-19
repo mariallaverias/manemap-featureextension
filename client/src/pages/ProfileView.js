@@ -58,8 +58,8 @@ function ProfileView(props) {
   // }
 
   return (
-    <div>
-      <h1>Profile View</h1>
+    <div className="container">
+      <h3 className="border">User Profile</h3>
       ID: {user.ID}
       <br />
       Username: {user.username}
@@ -67,9 +67,12 @@ function ProfileView(props) {
       Email: {user.email}
       {userStore ? (
         <div>
-          <h1>My Store </h1>
           <br />
-          <p> {userStore.storeName}</p>
+
+          <h3 className="border">Store Profile </h3>
+          <br />
+          <h5> {userStore.storeName}</h5>
+          <br />
         </div>
       ) : null}
       {userStore ? (

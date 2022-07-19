@@ -61,3 +61,21 @@
     transform: rotate(360deg);
   }
 } */
+.btn-light {
+  background-color: #e08baf;
+  color: white;
+}
+
+.btn-light:hover {
+  background-color: #fadfac;
+}
+
+.Form {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  /* background-color: #fae1be; */
+}
+
+h5 {
+  color: #e08baf;
+}
