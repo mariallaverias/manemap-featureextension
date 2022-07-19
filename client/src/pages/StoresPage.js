@@ -7,28 +7,34 @@ function StoresPage(props) {
     return <h2>Loading....</h2>;
   }
   return (
-    <div className="StoresPage">
+    <div className="StoresPage container">
       <h2>Stores</h2>
-      <ul className="StoresList">
-        {props.stores.map((s) => (
-          <li
-            className="Store border "
-            key={s.ID}
-            style={{ listStyleType: "none" }}
-            onClick={(e) => props.showStoreCb(s.ID)}
-          >
-            <h3>{s.storeName}</h3> <br />
-            <img
-              src={s.storeImage}
-              width="500"
-              height="300"
-              alt=""
-            /> <br /> {s.storeCity}
-            {","} {s.storeCountry} {""}
-            {s.storePostalCode}
-          </li>
-        ))}
-      </ul>
+      <div>
+        <ul className="row">
+          {props.stores.map((s) => (
+            <li className="col-lg-4 d-flex align-items-stretch">
+              <div
+                className="card col w-100 p-3"
+                key={s.ID}
+                style={{ listStyleType: "none" }}
+                onClick={(e) => props.showStoreCb(s.ID)}
+              >
+                <h3 className="card-title">{s.storeName}</h3> <br />
+                <img
+                  className="card-img-top"
+                  src={s.storeImage}
+                  width="500"
+                  height="300"
+                  alt=""
+                />{" "}
+                <br /> {s.storeCity}
+                {","} {s.storeCountry} {""}
+                {s.storePostalCode}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

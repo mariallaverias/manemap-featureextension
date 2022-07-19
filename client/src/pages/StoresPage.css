@@ -12,7 +12,14 @@
   stroke: #e08baf;
 }
 
+img {
+  object-fit: cover;
+}
 /* .Form {
   margin-top: 20px;
   margin-bottom: 30px;
   /* background-color: #fae1be; */
+
+li {
+  display: inline-block;
+}

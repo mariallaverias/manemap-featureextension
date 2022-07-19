@@ -51,12 +51,6 @@ function ProfileView(props) {
     return <h2>Loading...</h2>;
   }
 
-  // function deleteProduct(product) {
-  //   setToDelete(product);
-
-  // props.deleteProductCb0(toDelete);
-  // }
-
   return (
     <div className="container">
       <h3 className="border">User Profile</h3>

@@ -48,7 +48,10 @@ function NewProductForm(props) {
   return (
     <div>
       <h2>Add a new product to the directory! </h2>
-      <form onSubmit={handleSubmit} className="NewProductForm mb-3 ms-5">
+      <form
+        onSubmit={handleSubmit}
+        className="NewProductForm mb-3 ms-5 container"
+      >
         <label className="form-label col-sm-3 mt-5">
           Product Name
           <input

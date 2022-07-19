@@ -28,7 +28,7 @@ function ProductsPage(props) {
   return (
     <div className="ProductsPage">
       <h2>Products</h2>{" "}
-      <form className="Form" onSubmit={handleSubmit}>
+      <form className="Form container" onSubmit={handleSubmit}>
         {" "}
         Looking for something specific? <br />
         <label className="form-label">
