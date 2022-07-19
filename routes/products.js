@@ -172,16 +172,36 @@ router.delete("/", async function (req, res) {
 
   try {
     let result = await db(
-      `DELETE FROM products_stores WHERE FK_productsID= ${storeID} AND FK_productsID= ${productID} ;`
+      `DELETE FROM products_stores WHERE FK_productsID= ${productID} AND FK_storesID= ${storeID} ;`
     );
 
     const results = await db(
       `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
     );
-    // message number 201 means 'new resource created'
-    res.status(201).send(results.data);
+
+    res.status(200).send(results.data);
   } catch (err) {
-    res.status(500).send("error");
+    res.status(500).send({ error: err.message });
+  }
+});
+
+router.put("/", async (req, res) => {
+  try {
+    //const { productID } = req.params; //
+
+    const { price, storeID, productID } = req.body; // For now Im only letting the user update the price of the product
+
+    await db(
+      `UPDATE products_stores SET productPrice=${price} WHERE FK_productsID= ${productID} AND FK_storesID= ${storeID}`
+    );
+
+    const results = await db(
+      `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
+    );
+
+    res.status(200).send(results.data);
+  } catch (error) {
+    res.send({ message: error });
   }
 });
 
