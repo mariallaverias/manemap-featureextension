@@ -19,6 +19,10 @@ function NewProductForm(props) {
     getUserStore();
   }, []);
 
+  useEffect(() => {
+    getUserStore();
+  }, [props.user]);
+
   function handleSubmit(event) {
     event.preventDefault();
     let storeID = userStore.ID;
@@ -34,9 +38,9 @@ function NewProductForm(props) {
   }
 
   function getUserStore() {
-    console.log(props.stores);
     if (props.user && props.user.owner === 1) {
       let x = props.stores.filter((s) => s.FK_userID === props.user.ID);
+      console.log(x);
       setUserStore(x[0]);
     }
   }

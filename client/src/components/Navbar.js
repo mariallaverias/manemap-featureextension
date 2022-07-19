@@ -17,11 +17,11 @@ function Navbar(props) {
             <NavLink to="/stores">Stores</NavLink>
           </li>
           {/*Only show add -produtcs and add stores if user is loged in*/}
-          {props.user && (
+          {props.user && props.user.owner === 1 ? (
             <li>
               <NavLink to="/add-products">Add a Product</NavLink>
             </li>
-          )}
+          ) : null}
 
           {props.user && props.user.owner === 0 ? (
             <li>

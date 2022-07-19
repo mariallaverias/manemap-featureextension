@@ -167,23 +167,22 @@ router.post("/", async function (req, res) {
   }
 });
 
-// router.post("/products_stores/", async function (req, res) {
-//   let { productID, storeID, price } = req.body;
+router.delete("/", async function (req, res) {
+  let { productID, storeID } = req.body;
 
-//   try {
-//     await db(
-//       `INSERT INTO products_stores (FK_productsID, FK_storesID, productPrice) VALUES (${productID}, ${storeID}, ${price})`
-//     );
+  try {
+    let result = await db(
+      `DELETE FROM products_stores WHERE FK_productsID= ${storeID} AND FK_productsID= ${productID} ;`
+    );
 
-//     const results = await db(
-//       `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
-//     );
-
-//     // message number 201 means 'new resource created'
-//     res.status(201).send(results.data);
-//   } catch (err) {
-//     res.status(500).send({ error: err.message });
-//   }
-// });
+    const results = await db(
+      `SELECT * FROM products_stores WHERE FK_storesID=${storeID}`
+    );
+    // message number 201 means 'new resource created'
+    res.status(201).send(results.data);
+  } catch (err) {
+    res.status(500).send("error");
+  }
+});
 
 module.exports = router;
