@@ -23,7 +23,10 @@ function Navbar(props) {
             </li>
           ) : null}
 
-          {props.user && props.user.owner === 0 ? (
+          {props.user &&
+          props.stores.filter(
+            (e) => Number(e.FK_userID) === Number(props.user.ID)
+          ).length < 1 ? (
             <li>
               <NavLink to="/add-stores">Add a Store</NavLink>
             </li>

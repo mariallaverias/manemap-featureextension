@@ -5,35 +5,15 @@ import MyProducts from "../components/MyProducts";
 
 //code source  Auth Demo  - Jim
 function ProfileView(props) {
-  const [user, setUser] = useState(null); //USE STATE 1
   const [errorMsg, setErrorMsg] = useState(""); //USESTATE 2
   const [userStore, setUserStore] = useState(null); //USESTATE 3
 
   let { id } = useParams();
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  useEffect(() => {
-    fetchProfile();
-  }, [props.stores]);
+  const user = props.user;
 
   useEffect(() => {
     getUserStore();
-  }, [user]);
-
-  async function fetchProfile() {
-    let myresponse = await Api.getUser(id);
-    if (myresponse.ok) {
-      setUser(myresponse.data);
-      setErrorMsg("");
-    } else {
-      setUser(null);
-      let msg = `Error ${myresponse.status}: ${myresponse.error}`;
-      setErrorMsg(msg);
-    }
-  }
+  }, [props.user]);
 
   function getUserStore() {
     console.log(user);
@@ -59,6 +39,14 @@ function ProfileView(props) {
       Username: {user.username}
       <br />
       Email: {user.email}
+      <br />
+      <br />
+      {props.user &&
+      props.stores &&
+      props.stores.filter((e) => Number(e.FK_userID) === Number(props.user.ID))
+        .length < 1 ? (
+        <button className="btn btn-light">Add your store</button>
+      ) : null}
       {userStore ? (
         <div>
           <br />

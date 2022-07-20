@@ -192,7 +192,6 @@ function App() {
       let response = await fetch("/products", options);
       if (response.ok) {
         // let data = await response.json();
-        navigate(`/users/${user.ID}`);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
@@ -256,7 +255,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar user={user} logoutCb={doLogout} />
+      <Navbar user={user} logoutCb={doLogout} stores={stores} />
       <div>
         <Routes>
           <Route
@@ -322,7 +321,9 @@ function App() {
             path="/add-stores"
             element={
               <PrivateRoute>
-                {user && Number(user.owner) < 1 ? (
+                {user &&
+                stores.filter((e) => Number(e.FK_userID) === user.ID).length <
+                  1 ? (
                   <NewStoreForm addStoresCb={addStores} user={user} />
                 ) : null}
               </PrivateRoute>
@@ -333,6 +334,7 @@ function App() {
             element={
               <PrivateRoute>
                 <ProfileView
+                  user={user}
                   stores={stores}
                   deleteProductCb0={(product) => deleteProduct(product)}
                 />
