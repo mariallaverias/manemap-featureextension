@@ -31,6 +31,7 @@ function App() {
     getAllProducts();
     getStores();
   }, []);
+
   // get stores function
   async function getStores() {
     let options = {
@@ -40,7 +41,7 @@ function App() {
       let response = await fetch("/stores", options);
       if (response.ok) {
         let data = await response.json();
-        setStores(data);
+        data && setStores(data);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
@@ -90,21 +91,45 @@ function App() {
   // get products function (includes search query stuff)
   async function getProducts(filters) {
     let fetchString = "/products";
+    //**********/ORIGINAL QUERY CODE
+    // // if ANY query exists
+    // if (filters) {
+    //   //   // separate them into for example productName and 'gel'
+    //   let filter = Object.keys(filters)
+    //     //     // then filter through the fields that actually have a query
+    //     .filter((q) => filters[q].length > 0)
+    //     //     // go through each one of them and replace any spaces with a +, for the url
+    //     .map((e) => `${e}=${filters[e].replace(" ", "+")}`)
+
+    //     //     // join it with an &, also for the url
+    //     .join("&");
+    //   console.log(filter);
+    //   //   // then finally, add it onto the url
+    //   fetchString += `?${filter}`;
+    //   //   console.log(fetchString);
+    // }
+
+    //**** SOLVED ISSUES IN ORIGINAL QUERY CODE
     // if ANY query exists
     if (filters) {
-      // separate them into for example productName and 'gel'
+      //  separate them into for example productName and 'gel'
       let filter = Object.keys(filters)
         // then filter through the fields that actually have a query
-        .filter((q) => filters[q].length > 0)
+        .filter((q) => q.length > 0)
         // go through each one of them and replace any spaces with a +, for the url
-        .map((e) => `${e}=${filters[e].replace(" ", "+")}`)
+        // the replace method only works on strings, so check if the value is a string.
+        .map((e) =>
+          typeof filters[e] === "string"
+            ? `${e}=${filters[e].replace(" ", "+")}`
+            : `${e}=${filters[e]}`
+        )
         // join it with an &, also for the url
         .join("&");
-      console.log(filters);
       // then finally, add it onto the url
       fetchString += `?${filter}`;
-      console.log(fetchString);
+      // console.log(fetchString);
     }
+
     let options = {
       method: "GET",
     };
@@ -112,7 +137,6 @@ function App() {
       let response = await fetch(fetchString, options);
       if (response.ok) {
         let data = await response.json();
-        console.log(data);
         setProducts(data);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
@@ -129,9 +153,9 @@ function App() {
     };
     try {
       let response = await fetch("/products", options);
-      if (response.ok) {
+      if (response && response.ok) {
         let data = await response.json();
-        setProducts(data);
+        data && setProducts(data);
       } else {
         console.log(`server error: ${response.status} ${response.statusText}`);
       }
@@ -337,6 +361,8 @@ function App() {
                   user={user}
                   stores={stores}
                   deleteProductCb0={(product) => deleteProduct(product)}
+                  getProductsCb0={getProducts}
+                  products={products}
                 />
               </PrivateRoute>
             }

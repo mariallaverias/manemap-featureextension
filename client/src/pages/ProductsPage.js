@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import "./ProductsPage.css";
 
 const EMPTY_FORM = {
@@ -9,6 +10,10 @@ const EMPTY_FORM = {
 };
 function ProductsPage(props) {
   const [form, setForm] = useState(EMPTY_FORM);
+
+  useEffect(() => {
+    props.getProductsCb(form);
+  }, []);
 
   if (!props.products) {
     return <h2>Loading....</h2>;

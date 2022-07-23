@@ -69,8 +69,6 @@ router.get("/", async function (req, res) {
   let sql = "SELECT *, products.ID AS productsID FROM products ";
   let where = makeWhereFromFilters(req.query); // make optional WHERE from query parameters
   // can include an optional console.log(where) to see what's being taken as a query parameter
-  console.log(where);
-
   try {
     if (where) {
       // inner joins to enable searching with store filters

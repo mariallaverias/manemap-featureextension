@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Api from "../helpers/Api";
 import MyProducts from "../components/MyProducts";
 
@@ -13,11 +13,12 @@ function ProfileView(props) {
 
   useEffect(() => {
     getUserStore();
-  }, [props.user]);
+  }, []);
+  useEffect(() => {
+    getUserStore();
+  }, [props.product]);
 
   function getUserStore() {
-    console.log(user);
-    console.log(props.stores);
     if (user && user.owner === 1) {
       let x = props.stores.filter((s) => s.FK_userID === user.ID);
       setUserStore(x[0]);
@@ -62,6 +63,8 @@ function ProfileView(props) {
           user={user}
           userStore={userStore}
           deleteProductCb1={(product) => props.deleteProductCb0(product)}
+          getProductsCb1={props.getProductsCb0}
+          products={props.products}
         />
       ) : null}
     </div>

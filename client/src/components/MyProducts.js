@@ -1,58 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const EMPTY_FORM = {
+  storeID: null,
+};
 function MyProducts(props) {
   const user = props.user;
   const userStore = props.userStore;
   const navigate = useNavigate();
+  const products = props.products;
 
-  //  const [myStore, setMyStore]
-  // const [storeProducts, setStoreProducts] = useState([]); //USESTATE 4
-  // const [toDelete, setToDelete] = useState(); //USESTATE 5
+  const [filter, SetFilter] = useState({
+    storeID: props.userStore.ID,
+  });
 
-  // useEffect(() => {
-  //   getMyProducts();
-  // }, [toDelete]);
-
-  // useEffect(() => {
-  //   getMyProducts();
-  // }, []);
-
-  // //props.getProductsCb(filters);
-  // async function getMyProducts() {
-  //   let fetchString = `/products/?storeID=${props.userStore.ID}`;
-
-  //   let options = {
-  //     method: "GET",
-  //   };
-  //   try {
-  //     let response = await fetch(fetchString, options);
-  //     if (response.ok) {
-  //       let data = await response.json();
-  //       console.log(data);
-  //       setStoreProducts(data);
-  //     } else {
-  //       console.log(`server error: ${response.status} ${response.statusText}`);
-  //     }
-  //   } catch (err) {
-  //     console.log(`network error: ${err.message}`);
-  //   }
-  // }
+  useEffect(() => {
+    props.getProductsCb1(filter);
+  }, []);
 
   function redirectToAddProducts(event) {
     event.preventDefault();
     navigate("/add-products");
   }
-  // function handleClickDelete(FK_productsID) {
-  //   let deletedProduct = { storeID: userStore.ID, productID: FK_productsID };
-  //   setToDelete(deletedProduct);
-  //   props.deleteProductCb1(deletedProduct);
-  //   navigate(`/users/${props.user.ID}`);
-  // }
+  function handleClickDelete(FK_productsID) {
+    let deletedProduct = { storeID: userStore.ID, productID: FK_productsID };
+
+    props.deleteProductCb1(deletedProduct);
+    navigate(`/users/${props.user.ID}`);
+  }
 
   return (
     <div>
-      {/* <h3 className="border">Products in store</h3>
+      <h1>test</h1>
+      <h3 className="border">Products in store</h3>
       <div>
         <table className="table table-bordered  padding">
           <thead>
@@ -68,9 +48,10 @@ function MyProducts(props) {
             </tr>
           </thead>
           <tbody className="table-group-divider">
-            {storeProducts.length > 0 &&
-              storeProducts.map((p) => (
-                <tr key={p.FK_productsID}>
+            {props.products &&
+              products.length > 0 &&
+              products.map((p) => (
+                <tr key={p.productsID}>
                   <td>{p.productName}</td>
                   <td>{p.brand}</td>
                   <td>{p.productPrice}€</td>
@@ -99,7 +80,7 @@ function MyProducts(props) {
         <button className="btn btn-light" onClick={redirectToAddProducts}>
           Add more products
         </button>
-      </div> */}
+      </div>
     </div>
   );
 }
