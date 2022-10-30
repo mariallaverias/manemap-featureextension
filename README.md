@@ -1,70 +1,61 @@
-HELLO! Welcome to Miselta's MVP project :)
 
-# ABOUT
+# About
 
-This project is called ManeMap, a directory of beauty supply products & stores. Geared mainly towards the black community and individuals with curly & afro-hair types, its main purpose is to streamline the process of locating specialized beauty supply stores & products.
+This project is called ManeMap,and it was originally built by [Miselta Ihekoba](https://github.com/miselta). Manemap is a directory of beauty supply products & stores geared mainly towards the black community and individuals with curly & afro-hair types. The purpose of the app is to help locating specialized beauty supply stores & products.
 
-# KEY TECHNOLOGIES
+# Key Features Implemented
 
-(In the order that I used them)
+This project was built on top of a legacy app. 
 
-- Figma (optional): To visualize the the styling of the page in a digital environment.
-- DBDesigner (optional): To visualize the database tables.
-- VS Code: To code.
-- mySQL: To store information in the database.
-- Node.js and Express: To get the BackEnd working.
-- Postman: To test the BackEnd Routes (currently have GET, GET by Id, and POST).
-- React & React Router: To get the FrontEnd working.
-- Bootstrap (optional): For styling - I used a combination of this with Vanilla CSS.
+The main features implemented in the feature-extension phase where:
 
-# DATABASE & STRUCTURE INSTALATION
+authentication, authorization and role-based data visualization. This would allow store users to update inventory and edit store-related information.
 
-The database consists of three tables - products, stores, and the junction table called products_stores.
-You can view that here:
-![Database-Tables](mvp-hair-app/database-tables.png)
+The search feature was also optimized to take in 1 or more parameters to search.
 
-There is an `INIT_DB.SQL` file with the SQL commands in it, as well as the default data at the bottom of it.
+Some minor styling was applied to highlight local stores and black-owned stores.
 
-To install the database:
+#Main technonolgies used: 
 
-- In your terminal, access the MySQL interface by running `mysql -u root -p`
-- Create a new database called hair, run the command: `create database hair;`
+JSON Web Token, Bcrypt, Node.js, Express.js, React, React Router.
+
+# Database
+
+The database consists of four tables - products, stores, and the junction table called products_stores and users.
+
+Take a look at the `INIT_DB.SQL` file in the model folder for the current database information, and run `npm run migrate` to update the database with this information. 
+
+To setup the database:
+
+- In your MySQL CLI create a new database called hair, run the command: `create database hair;`
 - In VSCode: create a `.env` file with the following information:
   DB_HOST=localhost
-  DB_USER=root
+  DB_USER=(your user)
   DB_NAME=hair
   DB_PASS=(your password here)
-- Create a `.gitignore` file, then add the line `node_modules/` to it.
+  SECRET_KEY=(Your secret key string phrase here)
 - Add the line `.env` to your `.gitignore` file.
-- Take a look at the `INIT_DB.SQL` file in the model folder for the current database information, and run `npm run migrate` to update the database with this information. Run this command again every time you make changes to that file - so that they can be updated.
-- In your MySQL console, you can run `use hair;` and then `describe hair;` to see the structure of the reviews table.
 
-# BE/FE INSTALATION
+
+# BE/FE Setup
 
 - After you clone the git repository, run `npm install` in your terminal.
-- Then, run `npm start` to run the model.
+- Then, run `npm start` to start the server.
 - Then, run `cd client` on the project folder to access the client folder, and run `npm start` again to run the client.
-- Feliz coding!!
 
-# BUGS:
+# Additional Feature Extension Ideas
 
-- SOME pages work on refresh, some don't. So don't be surprised if something breaks as soon as it refreshes.
-- Product Search:
-  - In the product search, searching for anything with two words simply does not work...Was in the middle of trying to debug this one.
-  - 'Beads' and 'Gel' for some reason show up twice when it is searched, even though they both appear in only one store.
-- In my junction tables, ID is sometimes 'ID' and other times 'id', so if you need to refer to a specific ID, I recommend taking a look at Postman and seeing what is returned there, and also comparing that with what is in the INIT_DB_SQL file.
-- The stores page styling doesn't respond well to having an odd amount of stores.
-
-# FEATURE EXTENSION IDEAS:
-
-- Getting the product search to work with all the input fields, as well as with two words.
 - Having a store search, similar to the product search. Also being able to search stores by products they have.
 - Being able to make product recommendations based on hair type.
 - Product & store reviews.
 - More cities and countries.
-- Banners to indicate Black-owned & local-owned stores (these fields already exist in the database but I didn't get to using them through a checkbox/banner).
 - Including ways to find hair salons and protective hairstylists as well, also by location.
 
 This is a student project that was created at [CodeOp](http://codeop.tech), a full stack development bootcamp in Barcelona.
 
-The images used in the logo are not mine, and were manually combined.
+The store names aer fictional and the images used for the stores or the logo are not ours, and some were manually combined.  The store image's sources are:
+- for Diva Hair Store  [this](https://images.bizbuysell.com/shared/listings/196/1966666/0526ea4f-423e-4f1f-b2b7-530e8f20ef6d-W496.jpg) 
+- for Angel Beauty Supply [this](https://www.gannett-cdn.com/presto/2022/01/28/PPEN/5a3a282f-dd35-4bb2-bdff-ddcbaaca65dc-JoJos_Beauty_Supply-001.jpg?crop=2999,1687,x0,y381&width=660&height=372&format=pjpg&auto=webp)
+- for Palacio del Afro [this](https://s3-media0.fl.yelpcdn.com/bphoto/ihHkLumMeswOR_XXfeICAw/l.jpg)
+- for Hairopolis  [this](https://archives.rgnn.org/wp-content/uploads/2019/08/2-750x500.jpg)
+
